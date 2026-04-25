@@ -1,10 +1,46 @@
-// Always point to your Express server
 const API_BASE = "http://localhost:3000";
-import { something } from "./memory.js";
-import { something } from "./scenarioTemplates.js";
-import { something } from "./schema.js";
-import { something } from "./scoring.js";
-// Helper for POST requests
+
+const roles = [
+  "Team Member",
+  "Team Lead",
+  "Manager",
+  "Director",
+  "Executive",
+  "HR Partner",
+  "Project Manager",
+  "Sales Representative",
+  "Customer Success Manager",
+  "Operations Specialist",
+];
+
+const scenarioTypes = [
+  "Data Analysis Decision",
+  "Cybersecurity Incident",
+  "AI Ethics",
+  "Software Project Risk",
+  "Engineering Tradeoff",
+  "Product Testing Failure",
+  "Process Automation",
+  "Technical Communication",
+  "Quality Control Issue",
+  "System Outage Response",
+  "Innovation Strategy",
+];
+
+function fillDropdown(id, options) {
+  const select = document.getElementById(id);
+  if (!select) return;
+
+  select.innerHTML = "";
+
+  options.forEach((option) => {
+    const el = document.createElement("option");
+    el.value = option.toLowerCase().replaceAll(" ", "-");
+    el.textContent = option;
+    select.appendChild(el);
+  });
+}
+
 async function postJson(url, data) {
   const res = await fetch(`${API_BASE}${url}`, {
     method: "POST",
@@ -22,47 +58,55 @@ async function postJson(url, data) {
   return res.json();
 }
 
-// Generate scenario
 async function generateNewScenario() {
   try {
-    const scenario = await postJson("/api/scenario", {});
+    const role = document.getElementById("roleSelect")?.value;
+    const scenarioType = document.getElementById("scenarioTypeSelect")?.value;
 
-    console.log("Scenario:", scenario);
+    const scenario = await postJson("/api/scenario", {
+      role,
+      scenarioType,
+    });
 
-    // Example: update UI
-    const el = document.getElementById("scenario");
-    if (el) {
-      el.textContent = JSON.stringify(scenario, null, 2);
-    }
-
+    document.getElementById("scenario").textContent = JSON.stringify(
+      scenario,
+      null,
+      2
+    );
   } catch (err) {
     console.error(err);
     alert("Failed to generate scenario");
   }
 }
 
-// Evaluate decision
-async function evaluateDecision(decisionData) {
+async function evaluateDecision() {
   try {
-    const result = await postJson("/api/evaluate", decisionData);
+    const decisionText = document.getElementById("decisionInput")?.value;
 
-    console.log("Evaluation:", result);
+    const result = await postJson("/api/evaluate", {
+      decision: decisionText,
+    });
 
-    const el = document.getElementById("result");
-    if (el) {
-      el.textContent = JSON.stringify(result, null, 2);
-    }
-
+    document.getElementById("result").textContent = JSON.stringify(
+      result,
+      null,
+      2
+    );
   } catch (err) {
     console.error(err);
     alert("Failed to evaluate decision");
   }
 }
 
-// Hook up button
 document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("generateBtn");
-  if (btn) {
-    btn.addEventListener("click", generateNewScenario);
-  }
+  fillDropdown("roleSelect", roles);
+  fillDropdown("scenarioTypeSelect", scenarioTypes);
+
+  document
+    .getElementById("generateBtn")
+    ?.addEventListener("click", generateNewScenario);
+
+  document
+    .getElementById("evaluateBtn")
+    ?.addEventListener("click", evaluateDecision);
 });
