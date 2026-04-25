@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adaptive Training Simulator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <section class="hero">
+      <h1>Adaptive Training Simulator</h1>
+      <p>
+        Configure a company, choose a role, generate a scenario, make decisions,
+        earn XP, and level up through increasingly complex technical situations.
+      </p>
+    </section>
+
+    <div class="layout">
+      <aside class="stack">
+        <section class="panel">
+          0
+          <h3>Company Setup</h3>
+          <div class="form-grid">
+            <div class="field">
+              <label for="companyName">Company Name</label>
+              <input id="companyName" type="text" placeholder="Northstar Health Systems" />
+            </div>
+
+            <div class="field">
+              <label for="industry">Industry</label>
+              <input id="industry" type="text" placeholder="Healthcare, Fintech, SaaS..." />
+            </div>
+
+            <div class="field">
+              <label for="businessModel">Business Model</label>
+              <select id="businessModel">
+                <option value="b2b">B2B</option>
+                <option value="b2c">B2C</option>
+                <option value="marketplace">Marketplace</option>
+                <option value="enterprise">Enterprise</option>
+                <option value="hybrid">Hybrid</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="riskLevel">Risk Level</label>
+              <select id="riskLevel">
+                <option value="low">Low</option>
+                <option value="moderate" selected>Moderate</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="regions">Regions</label>
+              <input id="regions" type="text" placeholder="US, UK, Canada" />
+            </div>
+
+            <div class="field">
+              <label for="trainingGoals">Training Goals</label>
+              <input id="trainingGoals" type="text" placeholder="De-escalation, compliance, documentation" />
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>Trainee Setup</h3>
+          <div class="form-grid">
+            <div class="field">
+              <label for="roleSelect">Role</label>
+              <select id="roleSelect"></select>
+            </div>
+
+            <div class="field">
+              <label for="traineeName">Trainee Name</label>
+              <input id="traineeName" type="text" placeholder="Jordan Lee" />
+            </div>
+
+            <div class="field">
+              <label for="experienceLevel">Experience Level</label>
+              <select id="experienceLevel">
+                <option value="entry">Entry</option>
+                <option value="mid" selected>Mid</option>
+                <option value="senior">Senior</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="scenarioType">Scenario Type</label>
+              <select id="scenarioType"></select>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="fit-box">
+            <strong>Scenario Fit Score:</strong>
+            <span id="fitScore">--</span>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="level-panel">
+            <div class="level-panel-top">
+              <div>
+                <div class="small-note">Player Level</div>
+                <div class="level-number" id="playerLevel">1</div>
+              </div>
+              <div class="rank-badge" id="playerRank">Beginner</div>
+            </div>
+
+            <div class="meta-row">
+              <span>XP Progress</span>
+              <span id="playerXp">0 / 100</span>
+            </div>
+
+            <div class="bar">
+              <span id="xpBar" style="width: 0%"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>Controls</h3>
+          <div class="button-row">
+            <button class="primary" id="startBtn">Generate Scenario</button>
+            <button class="secondary" id="evaluateBtn">Evaluate Decision</button>
+            <button class="ghost" id="resetBtn">Reset</button>
+          </div>
+        </section>
+      </aside>
+
+      <main class="main-grid">
+        <section class="two-col">
+          <div class="panel">
+            <h3 class="section-title">Scenario</h3>
+            <div id="scenarioBox" class="scenario-box empty">Generate a scenario to begin.</div>
+          </div>
+
+          <div class="panel">
+            <h3 class="section-title">Evaluation</h3>
+            <div id="evaluationBox" class="evaluation-box empty">No evaluation yet.</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3 class="section-title">Your Decision</h3>
+          <div class="field">
+            <label for="decisionInput">Write how you would respond</label>
+            <textarea id="decisionInput" placeholder="Explain the action you would take, who you would involve, and how you would communicate it."></textarea>
+          </div>
+        </section>
+
+        <section class="two-col">
+          <div class="panel">
+            <h3 class="section-title">Simulation State</h3>
+            <div id="stateGrid" class="state-grid"></div>
+          </div>
+
+          <div class="panel">
+            <h3 class="section-title">Timeline</h3>
+            <div id="timeline" class="timeline"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
